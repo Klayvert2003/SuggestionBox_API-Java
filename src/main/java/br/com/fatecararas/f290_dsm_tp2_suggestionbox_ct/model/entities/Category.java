@@ -1,10 +1,18 @@
 package br.com.fatecararas.f290_dsm_tp2_suggestionbox_ct.model.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 
 @Data
@@ -15,7 +23,11 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "Descrição é obrigatória")
     @Column(nullable = false, length = 100, unique = true)
-    private String descricao;
+    private String description;
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "category")
+    private List<Suggestion> suggestions = new ArrayList<>();
 }
